@@ -1,58 +1,56 @@
-import { Check } from 'lucide-react'
 import { solutions } from '../../data/solutions'
-import { Chip } from '../ui/Chip'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
-import { SpotlightCard } from '../ui/SpotlightCard'
+import { Tag } from '../ui/Tag'
 
 export function Solutions() {
   return (
-    <section id="solutions" className="relative border-t border-line py-20 sm:py-28">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-grid [mask-image:linear-gradient(to_bottom,transparent,#000_30%,#000_70%,transparent)] opacity-50"
-      />
-      <div className="mx-auto max-w-6xl px-6">
+    <section id="solutions" className="border-t border-line py-32 sm:py-44">
+      <div className="frame">
         <SectionHeading
-          eyebrow="02 / Enterprise Solutions"
-          title="Four technical pillars, engineered as one platform."
-          lead="Each engagement draws on the same disciplined foundation, whether the outcome is an API, a cloud rollout, a mobile product or a connected device."
+          className="max-w-3xl"
+          index="02"
+          label="Services"
+          title="Four kinds of work,"
+          accent="one standard."
+          lead="Each engagement draws on the same foundation, whether the outcome is an API, a cloud rollout, a mobile product or a connected device."
         />
 
-        <ul className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <ol className="mt-24 border-t border-line lg:mt-32">
           {solutions.map((solution, index) => (
-            <li key={solution.title}>
-              <Reveal delay={(index % 2) * 100} className="h-full">
-                <SpotlightCard className="flex h-full flex-col p-6 sm:p-8">
-                  <div className="flex items-start justify-between">
-                    <span className="flex size-12 items-center justify-center rounded-xl border border-accent/30 bg-accent/10 text-accent-soft">
-                      <solution.icon className="size-5" aria-hidden="true" />
-                    </span>
-                    <span className="font-mono text-xs text-faint">{String(index + 1).padStart(2, '0')} / 04</span>
-                  </div>
+            <li key={solution.title} className="group border-b border-line">
+              <Reveal className="grid gap-6 py-12 lg:grid-cols-12 lg:gap-10 lg:py-16">
+                <span className="font-mono text-[11px] text-faint transition-colors duration-300 group-hover:text-accent lg:col-span-1 lg:pt-3">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
 
-                  <h3 className="mt-6 text-xl font-semibold tracking-tight text-ink">{solution.title}</h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-muted">{solution.summary}</p>
+                <h3 className="display text-4xl text-ink transition-transform duration-700 ease-out-soft group-hover:translate-x-1.5 sm:text-5xl lg:col-span-4">
+                  {solution.title}
+                </h3>
 
-                  <ul className="mt-6 space-y-2.5">
+                <div className="lg:col-span-4 lg:pt-2">
+                  <p className="text-[15px] leading-[1.75] text-muted">{solution.summary}</p>
+                  <ul className="mt-6 space-y-2.5 text-sm text-ink/90">
                     {solution.capabilities.map((capability) => (
-                      <li key={capability} className="flex gap-3 text-sm text-ink">
-                        <Check className="mt-0.5 size-4 shrink-0 text-live" aria-hidden="true" />
+                      <li key={capability} className="flex gap-3">
+                        <span className="mt-[0.7em] h-px w-3 shrink-0 bg-faint" aria-hidden="true" />
                         {capability}
                       </li>
                     ))}
                   </ul>
+                </div>
 
-                  <div className="mt-auto flex flex-wrap gap-2 pt-7">
-                    {solution.stack.map((item) => (
-                      <Chip key={item}>{item}</Chip>
-                    ))}
-                  </div>
-                </SpotlightCard>
+                <ul className="flex flex-wrap content-start gap-2 lg:col-span-3 lg:justify-end lg:pt-2.5">
+                  {solution.stack.map((item) => (
+                    <li key={item}>
+                      <Tag>{item}</Tag>
+                    </li>
+                  ))}
+                </ul>
               </Reveal>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   )

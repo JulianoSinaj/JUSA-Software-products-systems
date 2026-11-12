@@ -1,13 +1,11 @@
-import type { ReactNode } from 'react'
-import { ArrowUpRight, Mail } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { site } from '../../data/site'
-import { GithubIcon, LinkedinIcon } from '../ui/BrandIcons'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
+import { StatusDot } from '../ui/StatusDot'
 import { ContactForm } from './ContactForm'
 
 interface Channel {
-  icon: ReactNode
   label: string
   value: string
   href: string
@@ -15,90 +13,56 @@ interface Channel {
 }
 
 const channels: Channel[] = [
-  {
-    icon: <GithubIcon className="size-[18px]" />,
-    label: 'GitHub',
-    value: `@${site.links.githubHandle}`,
-    href: site.links.github,
-    external: true,
-  },
-  ...(site.links.linkedin
-    ? [
-        {
-          icon: <LinkedinIcon className="size-[18px]" />,
-          label: 'LinkedIn',
-          value: site.founder,
-          href: site.links.linkedin,
-          external: true,
-        },
-      ]
-    : []),
-  ...(site.email
-    ? [
-        {
-          icon: <Mail className="size-[18px]" aria-hidden="true" />,
-          label: 'Professional inquiries',
-          value: site.email,
-          href: `mailto:${site.email}`,
-          external: false,
-        },
-      ]
-    : []),
-]
+  site.email && { label: 'Email', value: site.email, href: `mailto:${site.email}`, external: false },
+  { label: 'GitHub', value: `@${site.links.githubHandle}`, href: site.links.github, external: true },
+  site.links.linkedin && { label: 'LinkedIn', value: site.founder, href: site.links.linkedin, external: true },
+].filter((channel): channel is Channel => Boolean(channel))
 
 export function Contact() {
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-line py-20 sm:py-28">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -bottom-48 left-1/2 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-accent/15 blur-[120px]" />
-      </div>
-
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
-        <div>
+    <section id="contact" className="border-t border-line py-32 sm:py-44">
+      <div className="frame grid gap-20 lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-5">
           <SectionHeading
-            eyebrow="05 / Contact"
-            title="Start a collaboration."
-            lead="Share what you are building. A short brief is enough to open the conversation about scope, architecture and delivery."
+            index="05"
+            label="Contact"
+            title="Have something"
+            accent="in mind?"
+            lead="Tell me what you are building. A short brief is enough to start a conversation about scope, architecture and timing."
           />
 
-          <ul className="mt-10 space-y-3">
-            {channels.map((channel, index) => (
-              <li key={channel.label}>
-                <Reveal delay={index * 80}>
-                  <a
-                    href={channel.href}
-                    {...(channel.external ? { target: '_blank', rel: 'noreferrer' } : {})}
-                    className="group flex items-center gap-4 rounded-2xl border border-line bg-surface p-4 transition-colors duration-200 hover:border-line-strong"
-                  >
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-line bg-canvas text-ink">
-                      {channel.icon}
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block font-mono text-[11px] tracking-[0.16em] text-faint uppercase">
-                        {channel.label}
-                      </span>
-                      <span className="block truncate text-[15px] font-medium text-ink">{channel.value}</span>
-                    </span>
-                    <ArrowUpRight
-                      className="ml-auto size-4 shrink-0 text-faint transition-[color,transform] duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-live-soft"
-                      aria-hidden="true"
-                    />
-                  </a>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
+          <Reveal delay={100}>
+            <dl className="mt-14 space-y-7">
+              {channels.map((channel) => (
+                <div key={channel.label}>
+                  <dt className="meta text-faint">{channel.label}</dt>
+                  <dd className="mt-2">
+                    <a
+                      href={channel.href}
+                      {...(channel.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+                      className="group inline-flex items-center gap-2 text-lg text-ink"
+                    >
+                      <span className="link-line-rest">{channel.value}</span>
+                      <ArrowUpRight
+                        className="size-4 text-muted transition-[transform,color] duration-300 group-hover:translate-x-px group-hover:-translate-y-px group-hover:text-accent"
+                        aria-hidden="true"
+                      />
+                      {channel.external && <span className="sr-only"> (opens in a new tab)</span>}
+                    </a>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            <p className="meta mt-14 inline-flex items-center gap-2.5 text-muted">
+              <StatusDot />
+              {site.availability}
+            </p>
+          </Reveal>
         </div>
 
-        <Reveal delay={120}>
-          <div className="glass overflow-hidden rounded-2xl shadow-card">
-            <div className="flex items-center justify-between border-b border-line px-5 py-3 sm:px-8">
-              <span className="font-mono text-xs text-muted">new-inquiry</span>
-              <span className="inline-flex items-center gap-2 font-mono text-[11px] text-live-soft">
-                <span className="size-1.5 rounded-full bg-live" aria-hidden="true" />
-                Open to new projects
-              </span>
-            </div>
+        <Reveal delay={160} className="lg:col-span-6 lg:col-start-7">
+          <div className="rounded-[1.25rem] border border-white/10 bg-surface/80 shadow-card backdrop-blur-sm transition-[border-color,box-shadow] duration-500 focus-within:border-accent/25 focus-within:shadow-[var(--shadow-card),0_40px_90px_-50px_rgb(245_158_11/0.35)]">
             <ContactForm />
           </div>
         </Reveal>

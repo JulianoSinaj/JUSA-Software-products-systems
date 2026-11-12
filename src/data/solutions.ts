@@ -1,7 +1,4 @@
-import { CloudCog, Cpu, Layers, Smartphone, type LucideIcon } from 'lucide-react'
-
 export interface Solution {
-  icon: LucideIcon
   title: string
   summary: string
   capabilities: string[]
@@ -10,44 +7,40 @@ export interface Solution {
 
 export const solutions: Solution[] = [
   {
-    icon: Layers,
-    title: 'Full-Stack Web & API Architecture',
+    title: 'Web & API architecture',
     summary:
-      'Backend systems designed around clear contracts: typed APIs, layered services and interfaces that hold up under real traffic and real change.',
+      'Backend systems designed around clear contracts: typed APIs, layered services and web interfaces that hold up under real traffic and real change.',
     capabilities: [
       'RESTful services with versioned, documented contracts',
-      'Secure microservices and service-to-service boundaries',
+      'Secure service boundaries and authentication',
       'Responsive web front ends wired to the same API',
     ],
-    stack: ['C# .NET 10', 'Python FastAPI', 'REST', 'Microservices'],
+    stack: ['C# .NET 10', 'Python FastAPI', 'React'],
   },
   {
-    icon: CloudCog,
-    title: 'Cloud Deployment & DevOps',
+    title: 'Cloud & delivery',
     summary:
       'From repository to running service without manual steps. Containers, managed databases and pipelines that build, test and ship on every push.',
     capabilities: [
-      'Docker images for reproducible builds and environments',
-      'Automated CI/CD workflows from commit to release',
-      'Vercel and Render infrastructure with managed PostgreSQL',
+      'Docker images for reproducible environments',
+      'Automated CI/CD from commit to release',
+      'Vercel and Render with managed PostgreSQL',
     ],
     stack: ['Docker', 'PostgreSQL', 'CI/CD', 'Vercel', 'Render'],
   },
   {
-    icon: Smartphone,
-    title: 'Cross-Platform & Mobile Solutions',
+    title: 'Mobile applications',
     summary:
-      'One React Native codebase for iOS and Android, backed by the same APIs as the web platform and tuned for a seamless day-to-day experience.',
+      'One React Native codebase for iOS and Android, backed by the same APIs as the web platform and tuned for everyday use.',
     capabilities: [
-      'Real-time location tracking and background processing',
-      'Role-based experiences for individuals and enterprise admins',
+      'Real-time location and background processing',
+      'Separate experiences for individual users and admins',
       'Reminders and notifications driven by live data',
     ],
-    stack: ['React Native', 'Real-time tracking', 'Python backend'],
+    stack: ['React Native', 'Python', 'PostgreSQL'],
   },
   {
-    icon: Cpu,
-    title: 'Hardware & IoT Systems Integration',
+    title: 'Hardware & IoT',
     summary:
       'Software that reaches the physical world: microcontroller prototypes, device-to-device communication and the dashboards that monitor them.',
     capabilities: [
@@ -55,6 +48,6 @@ export const solutions: Solution[] = [
       'BLE mesh communication between devices',
       'Device data surfaced in web and mobile interfaces',
     ],
-    stack: ['Arduino Uno R4', 'BLE mesh', 'Embedded C'],
+    stack: ['Arduino', 'BLE mesh', 'MQTT', 'Embedded C'],
   },
 ]

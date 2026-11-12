@@ -7,7 +7,10 @@ interface SiteConfig {
   name: string
   founder: string
   role: string
-  badge: string
+  /** Short status line shown next to the amber dot. */
+  availability: string
+  /** Hero status badge: status, then studio name. */
+  badge: { status: string; studio: string }
   email: string
   links: { github: string; githubHandle: string; linkedin: string }
 }
@@ -15,8 +18,9 @@ interface SiteConfig {
 export const site: SiteConfig = {
   name: 'JUSA',
   founder: 'Juliano Sinaj',
-  role: 'Full-Stack Software Developer & Web Design Engineer',
-  badge: 'JUSA // Enterprise Software & Engineering Excellence',
+  role: 'Full-stack software engineer',
+  availability: 'Open to new projects',
+  badge: { status: 'Available for Enterprise Projects', studio: 'JUSA Studio' },
 
   /** Professional inquiry address, e.g. 'hello@jusa.dev'. */
   email: '',
@@ -31,9 +35,9 @@ export const site: SiteConfig = {
 
 export const navLinks = [
   { id: 'expertise', label: 'Expertise' },
-  { id: 'solutions', label: 'Enterprise Solutions' },
-  { id: 'projects', label: 'Featured Projects' },
-  { id: 'experience', label: 'Experience' },
+  { id: 'solutions', label: 'Services' },
+  { id: 'projects', label: 'Work' },
+  { id: 'experience', label: 'Background' },
   { id: 'contact', label: 'Contact' },
 ] as const
 

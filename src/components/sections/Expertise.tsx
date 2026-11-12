@@ -1,38 +1,80 @@
-import { principles, stackLayers } from '../../data/expertise'
+import { coreStack, principles, stackLayers } from '../../data/expertise'
+import { TiltCard } from '../motion/TiltCard'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
+import { Tag } from '../ui/Tag'
+
+const pad = (n: number) => String(n).padStart(2, '0')
+
+const bento = ['lg:col-span-4', 'lg:col-span-2', 'lg:col-span-2', 'lg:col-span-4']
 
 export function Expertise() {
   return (
-    <section id="expertise" className="border-t border-line py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16">
-          <div>
-            <SectionHeading
-              eyebrow="01 / Expertise"
-              title="Core competencies across the whole system."
-              lead="One engineer accountable for every layer: the interface a customer touches, the services behind it, the database underneath and the pipeline that ships it."
-            />
-          </div>
+    <section id="expertise" className="border-t border-line py-32 sm:py-44">
+      <div className="frame">
+        <SectionHeading
+          className="max-w-4xl"
+          index="01"
+          label="Expertise"
+          title="One engineer, accountable for"
+          accent="every layer."
+          lead="The interface a customer touches, the services behind it, the database underneath and the pipeline that ships it — designed together, so nothing is lost at the seams."
+        />
 
-          {/* Stack matrix: one row per layer of the system. */}
-          <Reveal delay={120}>
-            <dl className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+        {/* Core stack as a bento: wide / narrow, then narrow / wide. */}
+        <ul className="mt-20 grid gap-4 sm:grid-cols-2 lg:mt-28 lg:grid-cols-6 lg:gap-5">
+          {coreStack.map((tool, index) => (
+            <li key={tool.name} className={bento[index % bento.length]}>
+              <Reveal delay={(index % 2) * 120} className="h-full">
+                <TiltCard className="flex h-full min-h-[22rem] flex-col p-8 sm:p-9">
+                  <div className="meta flex items-center justify-between text-faint">
+                    <span>{tool.role}</span>
+                    <span className="text-muted transition-colors duration-500 group-hover:text-accent">{pad(index + 1)}</span>
+                  </div>
+                  <p className="display mt-auto pt-16 text-6xl text-ink transition-transform duration-700 ease-out-soft group-hover:-translate-y-1 lg:text-[4.25rem]">
+                    {tool.name}
+                  </p>
+                  <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">{tool.note}</p>
+                  <ul className="mt-7 flex flex-wrap gap-2">
+                    {tool.tags.map((tag) => (
+                      <li key={tag}>
+                        <Tag>{tag}</Tag>
+                      </li>
+                    ))}
+                  </ul>
+                </TiltCard>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+
+        {/* Ledger: the full stack, layer by layer. */}
+        <div className="mt-32 grid gap-10 lg:mt-44 lg:grid-cols-12">
+          <Reveal className="lg:col-span-3">
+            <p className="meta text-faint">Layer by layer</p>
+            <p className="mt-4 max-w-[24ch] text-sm leading-relaxed text-muted">
+              Read top-down, the way a request travels through a system.
+            </p>
+          </Reveal>
+
+          <Reveal delay={100} className="lg:col-span-9">
+            <dl className="border-t border-line">
               {stackLayers.map((row, index) => (
                 <div
                   key={row.layer}
-                  className="grid gap-2 border-line px-5 py-4 not-last:border-b sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-6 sm:px-6"
+                  className="group grid gap-2 border-b border-line py-6 sm:grid-cols-[11rem_1fr] sm:items-baseline sm:gap-8"
                 >
-                  <dt className="flex items-center gap-3 font-mono text-xs text-faint">
-                    <span className="text-accent-soft">{String(index + 1).padStart(2, '0')}</span>
-                    <span className="tracking-[0.14em] uppercase">{row.layer}</span>
+                  <dt className="flex items-baseline gap-4">
+                    <span className="font-mono text-[11px] text-faint transition-colors duration-300 group-hover:text-accent">
+                      {pad(index + 1)}
+                    </span>
+                    <span className="font-serif text-2xl text-muted italic transition-colors duration-300 group-hover:text-ink">
+                      {row.layer}
+                    </span>
                   </dt>
-                  <dd className="flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-ink">
+                  <dd className="flex flex-wrap gap-x-6 gap-y-1 text-[15px] leading-relaxed text-ink/90">
                     {row.items.map((item) => (
-                      <span key={item} className="inline-flex items-center gap-2">
-                        <span className="size-1 rounded-full bg-live" aria-hidden="true" />
-                        {item}
-                      </span>
+                      <span key={item}>{item}</span>
                     ))}
                   </dd>
                 </div>
@@ -41,17 +83,23 @@ export function Expertise() {
           </Reveal>
         </div>
 
-        <ul className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-3">
-          {principles.map((principle, index) => (
-            <li key={principle.title} className="bg-canvas">
-              <Reveal delay={index * 90} className="h-full p-6 sm:p-7">
-                <principle.icon className="size-5 text-accent-soft" aria-hidden="true" />
-                <h3 className="mt-5 text-base font-semibold text-ink">{principle.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{principle.body}</p>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
+        {/* Principles, on the same 3 / 9 rhythm as the ledger. */}
+        <div className="mt-32 grid gap-10 lg:mt-44 lg:grid-cols-12">
+          <Reveal className="lg:col-span-3">
+            <p className="meta text-faint">How the work is done</p>
+          </Reveal>
+
+          <ol className="border-t border-line lg:col-span-9">
+            {principles.map((principle, index) => (
+              <li key={principle.title} className="border-b border-line">
+                <Reveal delay={index * 80} className="grid gap-4 py-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] md:gap-12">
+                  <h3 className="display text-[2rem] text-ink sm:text-4xl">{principle.title}</h3>
+                  <p className="text-[15px] leading-[1.75] text-muted md:pt-1.5">{principle.body}</p>
+                </Reveal>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   )

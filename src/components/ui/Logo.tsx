@@ -1,14 +1,12 @@
 import { site } from '../../data/site'
+import { StatusDot } from './StatusDot'
 
-/** JUSA wordmark with the glowing indigo status dot. */
+/** JUSA wordmark with its small amber status dot. */
 export function Logo() {
   return (
-    <a href="#top" className="group inline-flex items-center gap-2" aria-label={`${site.name} — back to top`}>
-      <span className="text-xl font-semibold tracking-[0.14em] text-ink">{site.name}</span>
-      <span className="relative flex size-2.5" aria-hidden="true">
-        <span className="absolute inset-0 animate-pulse-ring rounded-full bg-accent" />
-        <span className="relative size-2.5 rounded-full bg-accent shadow-[0_0_12px_2px_rgb(99_102_241/0.9)]" />
-      </span>
+    <a href="#top" className="inline-flex items-center gap-2.5" aria-label={`${site.name} — back to top`}>
+      <span className="text-[13px] font-semibold tracking-[0.28em] text-ink">{site.name}</span>
+      <StatusDot />
     </a>
   )
 }
